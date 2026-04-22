@@ -1,0 +1,40 @@
+name: IoT Lab CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install flake8 psutil
+
+      - name: Lint BT1
+        run: flake8 BT1_QEMU_SystemMonitor/ --max-line-length=120 --show-source
+
+      - name: Lint BT2
+        run: flake8 BT2_QEMU_SensorSim/ --max-line-length=120 --show-source
+
+      - name: Test sensor_sim.py
+        run: cd BT2_QEMU_SensorSim && python sensor_sim.py
+
+      - name: Check file structure
+        run: |
+          test -f BT1_QEMU_SystemMonitor/system_monitor.py
+          test -f BT2_QEMU_SensorSim/sensor_sim.py
+          test -f BT2_QEMU_SensorSim/sensor_visualize.py
+          test -f README.md
+          echo 'Structure OK'
