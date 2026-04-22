@@ -25,7 +25,10 @@ try:
             status = 'NORMAL'
 
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        line = f'[{now}] CPU: {cpu_avg:.1f}% | RAM: {ram_used_mb}/{ram_total_mb} MB ({ram_pct}%) | Disk: {disk_pct}% | {status}'
+        line = (
+            f'[{now}] CPU: {cpu_avg:.1f}% | RAM: {ram_used_mb}/{ram_total_mb} MB '
+            f'({ram_pct}%) | Disk: {disk_pct}% | {status}'
+        )
 
         print(line)
 

@@ -1,9 +1,10 @@
 import matplotlib
-matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
-from sensor_sim import SimUltrasonic, SimPotentiometer
 from time import sleep
+
+from sensor_sim import SimPotentiometer, SimUltrasonic
+
+matplotlib.use('Agg')
 
 us = SimUltrasonic(echo=24, trigger=23, base_distance=50.0)
 pot = SimPotentiometer(initial_value=0.4)
@@ -15,15 +16,15 @@ distances = []
 for i in range(50):
     d = us.distance
     distances.append(d)
-    print(f"  Mau {i+1}/50: {d:.1f} cm")
+    print(f"  Mau {i + 1}/50: {d:.1f} cm")
     sleep(0.1)
 
 print(f"\nThu thap xong {len(distances)} mau.")
+
 fig, ax = plt.subplots(figsize=(10, 5))
 x = range(len(distances))
 
 ax.plot(x, distances, 'b-', linewidth=1.5, label='Khoang cach (cm)')
-
 ax.axhline(y=span, color='r', linestyle='--', linewidth=2, label=f'Span = {span:.0f} cm')
 
 ax.fill_between(
